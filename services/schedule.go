@@ -79,6 +79,10 @@ func FetchSchedule(courseName string) (ScheduleResponseResult, error) {
 		}
 	}(resp.Body)
 
+	if resp.StatusCode != http.StatusOK {
+		return scheduleResponse, fmt.Errorf("received non-200 response code: %d", resp.StatusCode)
+	}
+
 	responseBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return scheduleResponse, fmt.Errorf("error reading response body: %v", err)
